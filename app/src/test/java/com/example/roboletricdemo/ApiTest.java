@@ -17,13 +17,13 @@ import static junit.framework.Assert.assertNotNull;
 public class ApiTest extends BaseUnitTest {
 
   @Test
-  public void getRepository(){
+  public void getRepository() throws Exception {
     TestSubscriber testSubscriber = APIHelper.getApi().searchRepos().test();
     testSubscriber.assertComplete();
     testSubscriber.assertNoErrors();
     assertNotNull(testSubscriber.getEvents());
     List<Repo> repos = (List<Repo>) getData(testSubscriber);
     assertNotNull(repos);
-    assertEquals(repos.size(),100);
+    assertEquals(repos.size(), 100);
   }
 }

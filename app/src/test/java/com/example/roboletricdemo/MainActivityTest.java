@@ -34,7 +34,7 @@ public class MainActivityTest {
   }
 
   @Test
-  public void testLifeCycle() {
+  public void testLifeCycle() throws Exception{
     ActivityController controller = Robolectric.buildActivity(MainActivity.class).create().start();
     MainActivity activity = (MainActivity) controller.get();
     assertNotNull(activity);
@@ -47,26 +47,26 @@ public class MainActivityTest {
 
   @Test
   @Config(qualifiers = "en")
-  public void testEnResource() {
+  public void testEnResource() throws Exception {
     String message = activity.getString(R.string.message);
     assertEquals(message, "Hello");
   }
 
   @Test
   @Config(qualifiers = "vi")
-  public void testViResource() {
+  public void testViResource() throws Exception{
     String message = activity.getString(R.string.message);
     assertEquals(message, "Xin chào");
   }
 
   @Test
-  public void validateTextViewContent() {
+  public void validateTextViewContent() throws Exception {
     TextView textView = activity.findViewById(R.id.text_view);
     assertNotNull("TextView is null", textView);
   }
 
   @Test
-  public void validateButtonClick() {
+  public void validateButtonClick() throws Exception{
     Button button = activity.findViewById(R.id.button_simple);
 
     button.performClick();
