@@ -57,9 +57,5 @@ tasks.coveralls {
 
   group = 'Coverage reports'
   description = 'Uploads the aggregated coverage report to Coveralls'
-  dependsOn 'testDebugUnitTest'
-  onlyIf { System.env.'CI' }
-}
-coveralls {
-  jacocoReportPath = "${buildDir}/reports/jacoco/jacocoDebugReport/jacocoDebugReport.xml"
+  dependsOn 'jacocoTestReport'
 }

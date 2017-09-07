@@ -1,0 +1,28 @@
+apply plugin: 'jacoco'
+apply plugin: 'com.github.kt3k.coveralls'
+
+task javaCodeCoverageAll(type: JacocoReport, dependsOn: testDebugUnitTest) {
+
+  reports {
+    xml {
+      enabled true
+      destination "$buildDir/reports/jacoco/test/jacocoTestReport.xml"
+    }
+    html {
+      enabled true
+      destination "$buildDir/reports/jacoco/html/"
+    }
+  }
+}
+
+coveralls {
+  jacocoReportPath = "${buildDir}/reports/jacoco/test/jacocoTestReport.xml"
+}
+
+tasks.coveralls {
+  group = 'Coverage reports'
+  description = 'Uploads the aggregated coverage report to Coveralls'
+
+  dependsOn javaCodeCoverageAll
+  onlyIf { System.env.'CI' }
+}
