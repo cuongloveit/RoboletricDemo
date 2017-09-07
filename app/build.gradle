@@ -49,6 +49,9 @@ dependencies {
   testCompile "org.robolectric:robolectric:3.4.2"
 }
 
+coveralls {
+  jacocoReportPath = "${buildDir}/reports/jacoco/jacocoTestReport/jacocoTestReport.xml"
+}
 
 tasks.coveralls {
 
