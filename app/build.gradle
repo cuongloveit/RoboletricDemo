@@ -49,13 +49,11 @@ dependencies {
   testCompile "org.robolectric:robolectric:3.4.2"
 }
 
-coveralls {
-  jacocoReportPath = "${buildDir}/reports/coverage/debug/report.xml"
-}
 
 tasks.coveralls {
 
   group = 'Coverage reports'
   description = 'Uploads the aggregated coverage report to Coveralls'
   dependsOn 'jacocoTestReport'
+  onlyIf { System.env.'CI' }
 }
