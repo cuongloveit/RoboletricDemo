@@ -31,7 +31,7 @@ public class MainActivityTest extends BaseUnitTest {
 
   @Before
   public void setup() {
-   // activity = Robolectric.buildActivity(MainActivity.class).create().get();
+    activity = Robolectric.buildActivity(MainActivity.class).create().get();
   }
 
   @Test

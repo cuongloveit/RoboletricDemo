@@ -66,8 +66,6 @@ public class RepositoryListActivityTest extends BaseUnitTest {
     when(githubService.getRepositories())
         .thenReturn(new FlowableJust<List<Repo>>(new ArrayList<Repo>()));
 
-    Assert.assertEquals(pbLoading.getVisibility(), View.GONE);
-
     githubService.getRepositories().subscribe(testSubscriber);
     testSubscriber.assertNoErrors();
     Assert.assertNotNull(testSubscriber.getEvents().get(0));
