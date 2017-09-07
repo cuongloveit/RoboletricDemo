@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.widget.Button;
 import android.widget.TextView;
+import com.example.roboletricdemo.base.BaseUnitTest;
 import com.example.roboletricdemo.base.CustomRobolectricRunner;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,13 +25,24 @@ import static org.hamcrest.core.IsEqual.equalTo;
 import static org.robolectric.Shadows.shadowOf;
 
 
-public class MainActivityTest {
+public class MainActivityTest extends BaseUnitTest {
 
   private Activity activity;
 
   @Before
   public void setup() {
-    activity = Robolectric.buildActivity(MainActivity.class).create().get();
+   // activity = Robolectric.buildActivity(MainActivity.class).create().get();
+  }
+
+  @Test
+  public void validateButtonClick() throws Exception{
+    Button button = activity.findViewById(R.id.button_simple);
+
+    button.performClick();
+    ShadowActivity shadowActivity = shadowOf(activity);
+    Intent startedIntent = shadowActivity.getNextStartedActivity();
+    ShadowIntent shadowIntent = shadowOf(startedIntent);
+    assertThat(shadowIntent.getIntentClass().getName(), equalTo(HomeActivity.class.getName()));
   }
 
   @Test
@@ -65,14 +77,4 @@ public class MainActivityTest {
     assertNotNull("TextView is null", textView);
   }
 
-  @Test
-  public void validateButtonClick() throws Exception{
-    Button button = activity.findViewById(R.id.button_simple);
-
-    button.performClick();
-    ShadowActivity shadowActivity = shadowOf(activity);
-    Intent startedIntent = shadowActivity.getNextStartedActivity();
-    ShadowIntent shadowIntent = shadowOf(startedIntent);
-    assertThat(shadowIntent.getIntentClass().getName(), equalTo(HomeActivity.class.getName()));
-  }
 }

@@ -12,5 +12,5 @@ import retrofit2.http.Query;
 
 public interface GithubService {
   @GET("repositories")
-  Flowable<List<Repo>> searchRepos();
+  Flowable<List<Repo>> getRepositories();
 }

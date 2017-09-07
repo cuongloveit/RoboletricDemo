@@ -18,7 +18,7 @@ public class ApiTest extends BaseUnitTest {
 
   @Test
   public void getRepository() throws Exception {
-    TestSubscriber testSubscriber = APIHelper.getApi().searchRepos().test();
+    TestSubscriber testSubscriber = APIHelper.getApi().getRepositories().test();
     testSubscriber.assertComplete();
     testSubscriber.assertNoErrors();
     assertNotNull(testSubscriber.getEvents());
