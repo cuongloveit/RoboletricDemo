@@ -60,3 +60,6 @@ tasks.coveralls {
   dependsOn 'testDebugUnitTest'
   onlyIf { System.env.'CI' }
 }
+coveralls {
+  jacocoReportPath = "${buildDir}/reports/jacoco/jacocoDebugReport/jacocoDebugReport.xml"
+}
