@@ -26,4 +26,4 @@ before_script:
 
 script:
     - ./gradlew assembleDebug
-    - ./gradlew connectedAndroidTest coveralls
+    - ./gradlew testDebugUnitTest coveralls

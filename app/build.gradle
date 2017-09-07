@@ -46,6 +46,10 @@ coveralls {
 }
 
 tasks.coveralls {
-  dependsOn 'connectedAndroidTest'
+
+  group = 'Coverage reports'
+  description = 'Uploads the aggregated coverage report to Coveralls'
+
+  dependsOn 'testDebugUnitTest'
   onlyIf { System.env.'CI' }
 }
