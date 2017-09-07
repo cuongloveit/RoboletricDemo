@@ -27,10 +27,5 @@ before_script:
 script:
     - ./gradlew assembleDebug
     - ./gradlew jacocoTestReport
+    - ./gradlew coveralls
     # Only executed if all tasks are successful
-deploy:
-      # report coverage to coveralls
-    coverage:
-        branch: [master]
-        commands:
-            - ./gradlew coveralls
