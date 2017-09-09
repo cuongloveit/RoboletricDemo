@@ -1,7 +1,7 @@
 package com.example.roboletricdemo;
 
-import android.widget.TextView;
 import com.example.roboletricdemo.base.BaseUnitTest;
+import com.example.roboletricdemo.view.ui.HomeActivity;
 import org.junit.Before;
 import org.junit.Test;
 import org.robolectric.Robolectric;

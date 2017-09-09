@@ -4,24 +4,34 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import com.example.roboletricdemo.api.APIHelper;
 import com.example.roboletricdemo.api.GithubService;
 import com.example.roboletricdemo.base.BaseUnitTest;
+import com.example.roboletricdemo.di.DaggerTestAppComponent;
 import com.example.roboletricdemo.model.Repo;
+import com.example.roboletricdemo.presenter.repository.RepositoryPresenter;
+import com.example.roboletricdemo.view.repository.ListRepositoryView;
+import com.example.roboletricdemo.view.repository.RepositoryListActivity;
 import io.reactivex.internal.operators.flowable.FlowableError;
 import io.reactivex.internal.operators.flowable.FlowableJust;
+import io.reactivex.internal.operators.observable.ObservableJust;
 import io.reactivex.subscribers.TestSubscriber;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.Robolectric;
+import org.robolectric.android.controller.ActivityController;
+import org.robolectric.shadows.ShadowActivity;
 
-import static org.mockito.Mockito.doCallRealMethod;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.robolectric.Shadows.shadowOf;
 
 /**
  * Created by lap00168 on 9/3/17.
@@ -32,43 +42,37 @@ public class RepositoryListActivityTest extends BaseUnitTest {
   private RepositoryListActivity activity;
   private RecyclerView rcRepo;
   private TextView tvMessage;
-  private TestSubscriber testSubscriber;
-  @Mock private GithubService githubService;
+
+  private ActivityController<RepositoryListActivity> activityController;
 
   @Before
   public void setUp() {
-    activity = Robolectric.buildActivity(RepositoryListActivity.class).create().get();
+    activityController = Robolectric.buildActivity(RepositoryListActivity.class);
+    activity = activityController.get();
+    MockitoAnnotations.initMocks(this);
+    initWidgets();
+  }
+
+  private void initWidgets() {
+    activityController.setup();
     pbLoading = (ProgressBar) activity.findViewById(R.id.pbLoading);
     rcRepo = (RecyclerView) activity.findViewById(R.id.rcRepo);
     tvMessage = (TextView) activity.findViewById(R.id.tvMessage);
-    testSubscriber = TestSubscriber.create();
-    MockitoAnnotations.initMocks(this);
   }
 
   @Test
-  public void viewVisibilityWhenLoading() throws Exception {
-    Assert.assertEquals(pbLoading.getVisibility(), View.VISIBLE);
-    Assert.assertEquals(tvMessage.getVisibility(), View.GONE);
-    Assert.assertEquals(rcRepo.getVisibility(), View.VISIBLE);
+  public void viewVisibilityAfterRequestRepositoryFailed() {
+    assertNotNull(activity);
+    assertEquals(pbLoading.getVisibility(), View.GONE);
+    assertEquals(rcRepo.getVisibility(), View.GONE);
+    assertEquals(tvMessage.getVisibility(), View.VISIBLE);
   }
 
   @Test
-  public void viewVisibilityWhenLoadFailed() throws Exception {
-    when(githubService.getRepositories())
-        .thenReturn(new FlowableError<List<Repo>>(new FlowableJust<Throwable>(new Exception())));
-
-    githubService.getRepositories().subscribe(testSubscriber);
-    testSubscriber.assertError(Exception.class);
+  public void tvMessageShouldShowError(){
+    assertEquals(tvMessage.getText().toString(),"Error");
   }
 
-  @Test
-  public void shouldHideProgressBarWhenLoadRepositoriesSuccess() {
-    when(githubService.getRepositories())
-        .thenReturn(new FlowableJust<List<Repo>>(new ArrayList<Repo>()));
 
-    githubService.getRepositories().subscribe(testSubscriber);
-    testSubscriber.assertNoErrors();
-    Assert.assertNotNull(testSubscriber.getEvents().get(0));
-  }
 }
 

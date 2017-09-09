@@ -1,4 +1,4 @@
-package com.example.roboletricdemo;
+package com.example.roboletricdemo.view.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

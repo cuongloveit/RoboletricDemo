@@ -14,8 +14,9 @@ import static junit.framework.Assert.assertTrue;
  * Created by lap00168 on 8/29/17.
  */
 
-@Config(constants = BuildConfig.class, sdk = Build
-    .VERSION_CODES.LOLLIPOP_MR1)
+@Config(constants = BuildConfig.class,
+    sdk = Build.VERSION_CODES.LOLLIPOP_MR1,
+    application = TestApplication.class)
 @RunWith(CustomRobolectricRunner.class)
 public abstract class BaseUnitTest {
 
@@ -23,5 +24,4 @@ public abstract class BaseUnitTest {
     List<D> dataEvents = (List<D>) testSubscriber.getEvents().get(0);
     return dataEvents.get(0);
   }
-
 }

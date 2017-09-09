@@ -1,10 +1,11 @@
-package com.example.roboletricdemo;
+package com.example.roboletricdemo.view.repository;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import com.example.roboletricdemo.R;
 import com.example.roboletricdemo.model.Repo;
 import java.util.List;
 

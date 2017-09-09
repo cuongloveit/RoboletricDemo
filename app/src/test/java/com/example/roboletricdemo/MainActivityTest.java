@@ -2,16 +2,14 @@ package com.example.roboletricdemo;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Build;
 import android.widget.Button;
 import android.widget.TextView;
 import com.example.roboletricdemo.base.BaseUnitTest;
-import com.example.roboletricdemo.base.CustomRobolectricRunner;
+import com.example.roboletricdemo.view.ui.HomeActivity;
+import com.example.roboletricdemo.view.ui.MainActivity;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
 import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowActivity;
