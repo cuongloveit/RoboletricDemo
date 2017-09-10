@@ -6,6 +6,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.example.roboletricdemo.api.GithubService;
 import com.example.roboletricdemo.base.BaseUnitTest;
+import com.example.roboletricdemo.di.AppComponent;
+import com.example.roboletricdemo.di.AppModule;
 import com.example.roboletricdemo.di.DaggerTestAppComponent;
 import com.example.roboletricdemo.model.Repo;
 import com.example.roboletricdemo.presenter.repository.RepositoryPresenter;
@@ -15,15 +17,18 @@ import io.reactivex.internal.operators.flowable.FlowableError;
 import io.reactivex.internal.operators.flowable.FlowableJust;
 import io.reactivex.internal.operators.observable.ObservableJust;
 import io.reactivex.subscribers.TestSubscriber;
+import it.cosenonjaviste.daggermock.DaggerMockRule;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.Robolectric;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.android.controller.ActivityController;
 import org.robolectric.shadows.ShadowActivity;
 
@@ -38,6 +43,14 @@ import static org.robolectric.Shadows.shadowOf;
  */
 
 public class RepositoryListActivityTest extends BaseUnitTest {
+
+  @Rule public final DaggerMockRule<AppComponent> rule = new DaggerMockRule<>(AppComponent.class)
+      .set(new DaggerMockRule.ComponentSetter<AppComponent>() {
+        @Override public void setComponent(AppComponent component) {
+
+        }
+      });
+
   private ProgressBar pbLoading;
   private RepositoryListActivity activity;
   private RecyclerView rcRepo;

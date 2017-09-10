@@ -6,6 +6,7 @@ import io.reactivex.subscribers.TestSubscriber;
 import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import static junit.framework.Assert.assertTrue;
@@ -23,5 +24,9 @@ public abstract class BaseUnitTest {
   public <D> D getData(TestSubscriber<D> testSubscriber) {
     List<D> dataEvents = (List<D>) testSubscriber.getEvents().get(0);
     return dataEvents.get(0);
+  }
+
+  public TestApplication getApplication(){
+   return  ((TestApplication) RuntimeEnvironment.application);
   }
 }

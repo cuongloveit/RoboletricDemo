@@ -11,7 +11,7 @@ import dagger.android.ContributesAndroidInjector;
 @Module
 public abstract class AppModule {
   @ContributesAndroidInjector
-  abstract RepositoryListActivity contributeActivityInjector();
+  public abstract RepositoryListActivity contributeActivityInjector();
 
   @Provides
   static GithubService provideGithubService() {
