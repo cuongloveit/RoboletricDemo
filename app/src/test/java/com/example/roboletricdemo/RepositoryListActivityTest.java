@@ -8,29 +8,24 @@ import com.example.roboletricdemo.api.GithubService;
 import com.example.roboletricdemo.base.BaseUnitTest;
 import com.example.roboletricdemo.di.AppComponent;
 import com.example.roboletricdemo.di.AppModule;
-import com.example.roboletricdemo.di.DaggerTestAppComponent;
 import com.example.roboletricdemo.model.Repo;
+import com.example.roboletricdemo.model.RepoSearchResponse;
 import com.example.roboletricdemo.presenter.repository.RepositoryPresenter;
-import com.example.roboletricdemo.view.repository.ListRepositoryView;
+import com.example.roboletricdemo.view.repository.RepositoryAdapter;
 import com.example.roboletricdemo.view.repository.RepositoryListActivity;
 import io.reactivex.internal.operators.flowable.FlowableError;
 import io.reactivex.internal.operators.flowable.FlowableJust;
-import io.reactivex.internal.operators.observable.ObservableJust;
-import io.reactivex.subscribers.TestSubscriber;
 import it.cosenonjaviste.daggermock.DaggerMockRule;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.Assert;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.Robolectric;
-import org.robolectric.RuntimeEnvironment;
 import org.robolectric.android.controller.ActivityController;
-import org.robolectric.shadows.ShadowActivity;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
@@ -44,10 +39,12 @@ import static org.robolectric.Shadows.shadowOf;
 
 public class RepositoryListActivityTest extends BaseUnitTest {
 
-  @Rule public final DaggerMockRule<AppComponent> rule = new DaggerMockRule<>(AppComponent.class)
+  @Rule public final DaggerMockRule<AppComponent> rule = new DaggerMockRule<>(
+      AppComponent.class,
+      new AppModule())
       .set(new DaggerMockRule.ComponentSetter<AppComponent>() {
         @Override public void setComponent(AppComponent component) {
-
+          getApplication().setAppComponent(component);
         }
       });
 
@@ -56,14 +53,16 @@ public class RepositoryListActivityTest extends BaseUnitTest {
   private RecyclerView rcRepo;
   private TextView tvMessage;
 
+  @Mock GithubService githubService;
+
+  //@Mock RepositoryPresenter repositoryPresenter;
+
   private ActivityController<RepositoryListActivity> activityController;
 
   @Before
   public void setUp() {
     activityController = Robolectric.buildActivity(RepositoryListActivity.class);
     activity = activityController.get();
-    MockitoAnnotations.initMocks(this);
-    initWidgets();
   }
 
   private void initWidgets() {
@@ -75,6 +74,9 @@ public class RepositoryListActivityTest extends BaseUnitTest {
 
   @Test
   public void viewVisibilityAfterRequestRepositoryFailed() {
+    when(githubService.getRepositories()).thenReturn(new FlowableError<List<Repo>>(new
+        FlowableJust<Throwable>(new Exception("Error"))));
+    initWidgets();
     assertNotNull(activity);
     assertEquals(pbLoading.getVisibility(), View.GONE);
     assertEquals(rcRepo.getVisibility(), View.GONE);
@@ -82,10 +84,39 @@ public class RepositoryListActivityTest extends BaseUnitTest {
   }
 
   @Test
-  public void tvMessageShouldShowError(){
-    assertEquals(tvMessage.getText().toString(),"Error");
+  public void viewVisibilityAfterRequestRepositorySuccess() {
+    when(githubService.getRepositories())
+        .thenReturn(new FlowableJust<List<Repo>>(new ArrayList<>(mockListRepos(4))));
+
+    initWidgets();
+    assertNotNull(activity);
+    assertEquals(pbLoading.getVisibility(), View.GONE);
+    assertEquals(rcRepo.getVisibility(), View.VISIBLE);
+    assertEquals(tvMessage.getVisibility(), View.GONE);
+    assertEquals(rcRepo.getChildCount(),4);
   }
 
+  @Test
+  public void tvMessageShouldShowError() {
+    when(githubService.getRepositories()).thenReturn(new FlowableError<List<Repo>>(new
+        FlowableJust<Throwable>(new Exception("Error"))));
 
+    initWidgets();
+    assertEquals(tvMessage.getText().toString(), "Error");
+  }
+
+  @After
+  public void shouldeDettacthView() {
+    activityController.destroy();
+  }
+
+  public List<Repo> mockListRepos(int size) {
+    List<Repo> repos = new ArrayList<>();
+    for (int i = 0; i < size; i++) {
+      repos.add(new Repo(i, "name", "full name", "description", null, i + 5));
+    }
+
+    return repos;
+  }
 }
 

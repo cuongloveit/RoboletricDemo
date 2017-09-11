@@ -21,7 +21,6 @@ public class RepositoryPresenter extends Presenter<ListRepositoryView> {
 
   private final GithubService githubService;
 
-  @Inject
   public RepositoryPresenter(GithubService githubService) {
     this.githubService = githubService;
   }
@@ -42,12 +41,11 @@ public class RepositoryPresenter extends Presenter<ListRepositoryView> {
             if (getView() != null) {
               getView().onGetListRepositoryError(throwable.getMessage());
             }
-            success();
           }
         });
   }
 
-  public void success() {
-    Log.d("RepositoryPresenter", "Success");
+  public String test() {
+    return "test";
   }
 }

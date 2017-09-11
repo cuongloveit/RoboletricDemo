@@ -2,6 +2,7 @@ package com.example.roboletricdemo.base;
 
 import android.os.Build;
 import com.example.roboletricdemo.BuildConfig;
+import com.example.roboletricdemo.RoboApplication;
 import io.reactivex.subscribers.TestSubscriber;
 import java.util.List;
 import org.junit.Test;
@@ -26,7 +27,7 @@ public abstract class BaseUnitTest {
     return dataEvents.get(0);
   }
 
-  public TestApplication getApplication(){
-   return  ((TestApplication) RuntimeEnvironment.application);
+  public RoboApplication getApplication(){
+   return  ((RoboApplication) RuntimeEnvironment.application);
   }
 }

@@ -2,19 +2,21 @@ package com.example.roboletricdemo.di;
 
 import com.example.roboletricdemo.api.APIHelper;
 import com.example.roboletricdemo.api.GithubService;
-import com.example.roboletricdemo.view.repository.RepositoryListActivity;
-import com.example.roboletricdemo.view.ui.MainActivity;
+import com.example.roboletricdemo.model.RepoSearchResponse;
+import com.example.roboletricdemo.presenter.repository.RepositoryPresenter;
 import dagger.Module;
 import dagger.Provides;
-import dagger.android.ContributesAndroidInjector;
+import javax.inject.Singleton;
 
 @Module
-public abstract class AppModule {
-  @ContributesAndroidInjector
-  public abstract RepositoryListActivity contributeActivityInjector();
+public class AppModule {
 
-  @Provides
-  static GithubService provideGithubService() {
+  @Provides @Singleton public GithubService provideGithubService() {
     return APIHelper.getApi();
+  }
+
+  @Provides @Singleton public RepositoryPresenter provideRepostoryPresenter(
+      GithubService githubService) {
+    return new RepositoryPresenter(githubService);
   }
 }

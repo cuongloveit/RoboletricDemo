@@ -6,19 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.example.roboletricdemo.R;
-import com.example.roboletricdemo.api.APIHelper;
-import com.example.roboletricdemo.api.GithubService;
+import com.example.roboletricdemo.RoboApplication;
 import com.example.roboletricdemo.model.Repo;
+import com.example.roboletricdemo.model.RepoSearchResponse;
 import com.example.roboletricdemo.presenter.repository.RepositoryPresenter;
-import dagger.android.AndroidInjection;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 import java.util.List;
 import javax.inject.Inject;
 
@@ -35,7 +29,7 @@ public class RepositoryListActivity extends AppCompatActivity implements ListRep
   @Inject RepositoryPresenter presenter;
 
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
-    AndroidInjection.inject(this);
+    ((RoboApplication) getApplication()).getAppComponent().inject(this);
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_repository_list);
     rcRepos = (RecyclerView) findViewById(R.id.rcRepo);
@@ -46,7 +40,6 @@ public class RepositoryListActivity extends AppCompatActivity implements ListRep
     pbLoading.setVisibility(View.VISIBLE);
     presenter.requestRepositories();
   }
-
 
   @Override public void onGetListRepositorySuccess(List<Repo> repos) {
     pbLoading.setVisibility(View.GONE);

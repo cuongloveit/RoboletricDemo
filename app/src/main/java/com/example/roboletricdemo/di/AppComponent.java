@@ -1,10 +1,15 @@
 package com.example.roboletricdemo.di;
 
-import com.example.roboletricdemo.RoboApplication;
+import com.example.roboletricdemo.api.GithubService;
+import com.example.roboletricdemo.presenter.repository.RepositoryPresenter;
+import com.example.roboletricdemo.view.repository.RepositoryListActivity;
 import dagger.Component;
-import dagger.android.AndroidInjectionModule;
-import dagger.android.AndroidInjector;
+import javax.inject.Singleton;
 
-@Component(modules = { AndroidInjectionModule.class, AppModule.class})
-public interface AppComponent extends AndroidInjector<RoboApplication> {
+@Singleton
+@Component(modules = { AppModule.class})
+public interface AppComponent {
+  void inject(RepositoryListActivity repositoryListActivity);
+  GithubService gethubService();
+  RepositoryPresenter getRepository();
 }
