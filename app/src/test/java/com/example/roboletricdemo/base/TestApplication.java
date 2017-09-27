@@ -14,21 +14,7 @@ import io.reactivex.schedulers.Schedulers;
 public class TestApplication extends RoboApplication {
   @Override
   public void onCreate() {
-    setupRxSchedulers();
     super.onCreate();
   }
 
-  private void setupRxSchedulers() {
-    RxJavaPlugins.reset();
-    RxJavaPlugins.setComputationSchedulerHandler(new Function<Scheduler, Scheduler>() {
-      @Override public Scheduler apply(@NonNull Scheduler scheduler) throws Exception {
-        return Schedulers.trampoline();
-      }
-    });
-    RxJavaPlugins.setIoSchedulerHandler(new Function<Scheduler, Scheduler>() {
-      @Override public Scheduler apply(@NonNull Scheduler scheduler) throws Exception {
-        return Schedulers.trampoline();
-      }
-    });
-  }
 }
