@@ -1,5 +1,6 @@
 package com.example.roboletricdemo.base;
 
+import com.example.roboletricdemo.R;
 import com.example.roboletricdemo.RoboApplication;
 import io.reactivex.Scheduler;
 import io.reactivex.annotations.NonNull;
@@ -15,6 +16,7 @@ public class TestApplication extends RoboApplication {
   @Override
   public void onCreate() {
     super.onCreate();
+    setTheme(R.style.AppTheme);
   }
 
 }

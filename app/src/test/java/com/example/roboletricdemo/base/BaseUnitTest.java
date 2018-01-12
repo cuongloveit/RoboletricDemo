@@ -7,6 +7,7 @@ import io.reactivex.subscribers.TestSubscriber;
 import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
@@ -19,7 +20,7 @@ import static junit.framework.Assert.assertTrue;
 @Config(constants = BuildConfig.class,
     sdk = Build.VERSION_CODES.LOLLIPOP_MR1,
     application = TestApplication.class)
-@RunWith(CustomRobolectricRunner.class)
+@RunWith(RobolectricTestRunner.class)
 public abstract class BaseUnitTest {
 
   public <D> D getData(TestSubscriber<D> testSubscriber) {
